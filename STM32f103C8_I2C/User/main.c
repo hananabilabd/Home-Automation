@@ -24,47 +24,57 @@ uint8_t i2c_receive_nack(void);
 void i2c_write(uint8_t address, uint8_t data);
 void i2c_read(uint8_t address, uint8_t* data);
 
-uint8_t receivedByte;
-	
+
+void delay2(unsigned int nCount);
+GPIO_InitTypeDef GPIO_InitStruct;
+
+uint8_t receivedByte=0;
+char received =0;
 int main(void)
 {
-	DelayInit();
-
+	// Enable clock for GPIOA
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	// Configure PA0 as push-pull output
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
+	DelayInit();
 	// Initialize I2C
 	i2c_init();
-	
+	GPIO_SetBits(GPIOA, GPIO_Pin_0);
 	while (1)
 	{
 		// Write 0x00 to slave (turn off LED blinking)
-		i2c_write(SLAVE_ADDRESS, 0x00);
-		
+		//i2c_write(SLAVE_ADDRESS, 0x00);
 		DelayMs(5);
 		// Read LED blinking status (off/on)
-		//i2c_read(SLAVE_ADDRESS, &receivedByte);
+		i2c_read(SLAVE_ADDRESS, &receivedByte);
+		if (received == 1)
+		{
+				// Reset bit will turn on LED (because the logic is interved)
+				GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+				DelayMs(2000);
+			GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+			DelayMs(2000);
+		}
+		else if (received == 0)
+		{
+			// Set bit will turn off LED (because the logic is interved)
+			GPIO_SetBits(GPIOA, GPIO_Pin_0);
+			DelayMs(2000);
+			GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+			DelayMs(2000);
+		}
 	
-		DelayMs(2500);
-		///////////////////////////////////////////////////
 		
 		// Write 0x01 to slave (turn on LED blinking)
-		i2c_write(SLAVE_ADDRESS, 0x01);
-		DelayMs(5);
-		// Read LED blinking status (off/on)
-		//i2c_read(SLAVE_ADDRESS, &receivedByte);
+		//i2c_write(SLAVE_ADDRESS, 0x01);
+		//DelayMs(5);
 	
-	/*
-		if (receivedByte == 0)
-		{
+	DelayMs(1000);
 	
-		}
-		else if (receivedByte == 1)
-		{
-	
-		}
-		*/
-		DelayMs(2500);
-		
-		
 	}
 }
 
@@ -169,7 +179,7 @@ uint8_t i2c_receive_nack()
 void i2c_write(uint8_t address, uint8_t data)
 {
 	i2c_start();
-	i2c_address_direction(address << 1, I2C_Direction_Transmitter);
+	i2c_address_direction(address , I2C_Direction_Transmitter);//#define  I2C_Direction_Transmitter      ((uint8_t)0x00)
 	i2c_transmit(data);
 	i2c_stop();
 }
@@ -177,7 +187,16 @@ void i2c_write(uint8_t address, uint8_t data)
 void i2c_read(uint8_t address, uint8_t* data)
 {
 	i2c_start();
-	i2c_address_direction(address << 1, I2C_Direction_Receiver);
-	*data = i2c_receive_nack();
+	i2c_address_direction(address , I2C_Direction_Receiver);//#define  I2C_Direction_Receiver         ((uint8_t)0x01)
+	//*data = i2c_receive_nack();
+	received = i2c_receive_nack();
 	i2c_stop();
+}
+// Delay function
+void delay2(unsigned int nCount)
+{
+	unsigned int i, j;
+	
+	for (i = 0; i < nCount; i++)
+		for (j = 0; j < 0x2AFF; j++);
 }
