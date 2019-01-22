@@ -6,6 +6,7 @@
 C_SRCS += \
 ../DIO.c \
 ../I2C.c \
+../I2C_Slave_C_File.c \
 ../LCD.c \
 ../Timer.c \
 ../main.c 
@@ -13,6 +14,7 @@ C_SRCS += \
 OBJS += \
 ./DIO.o \
 ./I2C.o \
+./I2C_Slave_C_File.o \
 ./LCD.o \
 ./Timer.o \
 ./main.o 
@@ -20,6 +22,7 @@ OBJS += \
 C_DEPS += \
 ./DIO.d \
 ./I2C.d \
+./I2C_Slave_C_File.d \
 ./LCD.d \
 ./Timer.d \
 ./main.d 
