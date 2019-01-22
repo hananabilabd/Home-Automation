@@ -58,7 +58,7 @@ int main(void)
 	DIO_SetPinDirection('C',7,1);
 	DIO_SetPinDirection('C',6,1);
 	I2C_Slave_Init(Slave_Address);
-
+	//trying
     while(1)
     {
 
