@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Atmega32_USART", "Atmega32_USART\Atmega32_USART.cproj", "{4D7ABC49-CBEE-4D4A-845A-0DD2509C16AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D7ABC49-CBEE-4D4A-845A-0DD2509C16AB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{4D7ABC49-CBEE-4D4A-845A-0DD2509C16AB}.Debug|AVR.Build.0 = Debug|AVR
+		{4D7ABC49-CBEE-4D4A-845A-0DD2509C16AB}.Release|AVR.ActiveCfg = Release|AVR
+		{4D7ABC49-CBEE-4D4A-845A-0DD2509C16AB}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
