@@ -214,8 +214,13 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD:test/testArm.uvopt
+      <TopLine>1</TopLine>
+      <CurrentLine>117</CurrentLine>
+=======
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
+>>>>>>> 6d5850d7743433b62b277b1f6cee2e3011f545d6:STM32f103C8_SPI/STM32f103C8_SPI.uvopt
       <bDave2>0</bDave2>
       <PathWithFileName>.\CMSIS\CM3\CoreSupport\core_cm3.c</PathWithFileName>
       <FilenameWithoutPath>core_cm3.c</FilenameWithoutPath>
