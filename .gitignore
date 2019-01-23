@@ -13,3 +13,6 @@ STM32f103C8_I2C/STM32f103C8_I2C.build_log.htm
 *.axf
 *.s
 *.d
+*.map
+*.lnp
+*.inp
