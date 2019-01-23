@@ -1,5 +1,4 @@
-I2C.o I2C.o: ../I2C.c ../typedef.h ../IO.h ../macros.h ../DIO.h \
-  ../Timer.h ../I2C.h
+I2C.o I2C.o: ../I2C.c ../typedef.h ../IO.h ../macros.h ../DIO.h ../I2C.h
 
 ../typedef.h:
 
@@ -8,7 +7,5 @@ I2C.o I2C.o: ../I2C.c ../typedef.h ../IO.h ../macros.h ../DIO.h \
 ../macros.h:
 
 ../DIO.h:
-
-../Timer.h:
 
 ../I2C.h:

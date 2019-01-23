@@ -3,7 +3,6 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_usart.h"
 #include "delay1.h"
-#include <string.h>
 
 void USART2_Init(void);
 void USART2_PutChar(char c);
@@ -15,21 +14,21 @@ uint16_t USART2_GetChar(void);
 char buf[BUF_SIZE];
 int i = 0;
 
+void delay(unsigned int nCount);
 GPIO_InitTypeDef GPIO_InitStruct;
-void delay(int a);
 
 int main(void)
 {
-	// Enable clock for GPIOC
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-  // Configure PC9 as push-pull output
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
-  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(GPIOA, &GPIO_InitStruct);
+	// Enable clock for GPIOA
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	
+	// Configure PA0 as push-pull output
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStruct);
 	
 	DelayInit();
-	
 	// Initialize USART
 	USART2_Init();
 	
@@ -38,46 +37,15 @@ int main(void)
 		// Read received char
 		char c = USART2_GetChar();
 		
-		if (c != '\n')
-		{ 
-			  if(c == 1)
-					{
-						// Turn on LED on PC9
-						GPIO_ResetBits(GPIOA, GPIO_Pin_0);
-						delay(5000000);
-						// Turn off LED on PC9
-						GPIO_SetBits(GPIOA, GPIO_Pin_0);
-						delay(5000000);
-				}
+		if (c == 0){
+			GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+		delay(1000);
+		// Set bit will turn off LED (because the logic is interved)
+		GPIO_SetBits(GPIOA, GPIO_Pin_0);
+		delay(1000);
 		}
-//		// Read chars until newline
-//		if (c != '\n')
-//		{
-//			// Concat char to buffer
-//			// If maximum buffer size is reached, then reset i to 0
-//			if (i < BUF_SIZE - 1)
-//			{
-//				buf[i] = c;
-//				i++;
-//			}
-//			else
-//			{
-//				buf[i] = c;
-//				i = 0;
-//			}
-//		}
-//		else
-//		{
-//			
-//			
-//			// Echo received string to USART2
-//			USART2_PutString(buf);
-//			USART2_PutChar('\n');
-//			
-//			// Clear buffer
-//			memset(&buf[0], 0, sizeof(buf));
-//			i = 0;
-//		}
+			
+	
 	}
 }
 
@@ -136,13 +104,10 @@ uint16_t USART2_GetChar()
 	// Read received char
 	return USART_ReceiveData(USART2);
 }
-
-void delay (int a)
+void delay(unsigned int nCount)
 {
- volatile int i,j;
- for (i=0 ; i < a ; i++)
- {
-  j++;
- }
- return;
+	unsigned int i, j;
+	
+	for (i = 0; i < nCount; i++)
+		for (j = 0; j < 0x2AFF; j++);
 }

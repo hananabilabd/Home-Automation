@@ -31,4 +31,3 @@
 .\main.o: .\STM32F10x_StdPeriph_Driver\inc\stm32f10x_wwdg.h
 .\main.o: .\STM32F10x_StdPeriph_Driver\inc\misc.h
 .\main.o: User\delay1.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h

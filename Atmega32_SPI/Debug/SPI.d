@@ -1,5 +1,4 @@
-SPI.o SPI.o: ../SPI.c ../typedef.h ../IO.h ../macros.h ../DIO.h \
-  ../Timer.h ../SPI.h
+SPI.o SPI.o: ../SPI.c ../typedef.h ../IO.h ../macros.h ../DIO.h ../SPI.h
 
 ../typedef.h:
 
@@ -8,7 +7,5 @@ SPI.o SPI.o: ../SPI.c ../typedef.h ../IO.h ../macros.h ../DIO.h \
 ../macros.h:
 
 ../DIO.h:
-
-../Timer.h:
 
 ../SPI.h:

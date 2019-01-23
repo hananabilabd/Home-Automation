@@ -32,30 +32,30 @@ int main(void)
 		// Enable slave
 		SPIx_EnableSlave();
 		// Write command to slave to turn on LED blinking
-		SPIx_Transfer((uint8_t) '1');
-		delay(1000);
+		SPIx_Transfer(1);
+		delay(100);
 	
 		// Read LED blinking status (off/on) from slave by transmitting dummy byte
-		receivedByte = SPIx_Transfer(1);
+		//receivedByte = SPIx_Transfer(1);
 		// Disable slave
 		SPIx_DisableSlave();
 		// Display LED blinking status
-		delay(2500);
+		delay(1000);
  
         // Enable slave
         SPIx_EnableSlave();
         // Write command to slave to turn off LED blinking
-        SPIx_Transfer((uint8_t) '0');
+        SPIx_Transfer(0);
         delay(100);
        
         // Read LED blinking status (off/on) from slave by transmitting 
         // dummy byte
-        receivedByte = SPIx_Transfer(0);
+        //receivedByte = SPIx_Transfer(0);
         // Disable slave
         SPIx_DisableSlave();
       
       
-        delay(2500);
+        delay(1000);
 	}
 }
 

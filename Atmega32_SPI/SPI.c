@@ -8,7 +8,7 @@
 #include "IO.h"
 #include "macros.h"
 #include "DIO.h"
-#include "Timer.h"
+
 #include "SPI.h"
 
 #define MasterOrSlave 'Slave '
