@@ -30,38 +30,38 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 FLASH_IMAGE += \
-week_7_SPI_Interrupt.hex \
+Atmega32_SPI.hex \
 
 AVRDUDEDUMMY += \
 avrdudedummy \
 
 
 # All Target
-all: week_7_SPI_Interrupt.elf secondary-outputs
+all: Atmega32_SPI.elf secondary-outputs
 
 # Tool invocations
-week_7_SPI_Interrupt.elf: $(OBJS) $(USER_OBJS)
+Atmega32_SPI.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,week_7_SPI_Interrupt.map -mmcu=atmega32 -o "week_7_SPI_Interrupt.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,Atmega32_SPI.map -mmcu=atmega32 -o "Atmega32_SPI.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-week_7_SPI_Interrupt.hex: week_7_SPI_Interrupt.elf
+Atmega32_SPI.hex: Atmega32_SPI.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex week_7_SPI_Interrupt.elf  "week_7_SPI_Interrupt.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Atmega32_SPI.elf  "Atmega32_SPI.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-avrdudedummy: week_7_SPI_Interrupt.elf
+avrdudedummy: Atmega32_SPI.elf
 	@echo 'Invoking: AVRDude'
-	C:\WinAVR-20100110\bin\avrdude -pm32 -cusbasp -Uflash:w:week_7_SPI_Interrupt.hex:a
+	C:\WinAVR-20100110\bin\avrdude -pm32 -cusbasp -Uflash:w:Atmega32_SPI.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(AVRDUDEDUMMY)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) week_7_SPI_Interrupt.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(AVRDUDEDUMMY)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) Atmega32_SPI.elf
 	-@echo ' '
 
 secondary-outputs: $(FLASH_IMAGE) $(AVRDUDEDUMMY)

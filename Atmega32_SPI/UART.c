@@ -10,7 +10,6 @@
 #include "macros.h"
 #define F_CPU 12000000UL
 #include <util/delay.h>
-#include "Timer.h"
 #include "DIO.h"
 #include "UART.h"
 #include <stdio.h>

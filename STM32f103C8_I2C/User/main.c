@@ -47,10 +47,11 @@ int main(void)
 	while (1)
 	{
 		// Write 0x00 to slave (turn off LED blinking)
-		//i2c_write(SLAVE_ADDRESS, 0x00);
+		i2c_write(SLAVE_ADDRESS, 0x00);
 		DelayMs(5);
 		// Read LED blinking status (off/on)
-		i2c_read(SLAVE_ADDRESS, &receivedByte);
+		//i2c_read(SLAVE_ADDRESS, &receivedByte);
+		/*
 		if (received == 1)
 		{
 				// Reset bit will turn on LED (because the logic is interved)
@@ -67,10 +68,11 @@ int main(void)
 			GPIO_ResetBits(GPIOA, GPIO_Pin_0);
 			DelayMs(2000);
 		}
+		*/
 	
 		
 		// Write 0x01 to slave (turn on LED blinking)
-		//i2c_write(SLAVE_ADDRESS, 0x01);
+		i2c_write(SLAVE_ADDRESS, 0x01);
 		//DelayMs(5);
 	
 	DelayMs(1000);
