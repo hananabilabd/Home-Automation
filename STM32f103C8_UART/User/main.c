@@ -3,75 +3,146 @@
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_usart.h"
 #include "delay1.h"
+#include <string.h>
 
-#include "stm32f10x_conf.h"
+void USART2_Init(void);
+void USART2_PutChar(char c);
+void USART2_PutString(char *s);
+uint16_t USART2_GetChar(void);
 
+// Buffer for store received chars
+#define BUF_SIZE	16
+char buf[BUF_SIZE];
+int i = 0;
 
-uint8_t receivedByte;
-	
+GPIO_InitTypeDef GPIO_InitStruct;
+void delay(int a);
+
 int main(void)
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
-    USART_InitTypeDef USART_InitStructure;
-    
-    uint16_t rxbuf[64];
-    int rxbuf_pos = 0;
-    int i;
-    
-    /* Enable peripheral clocks for USART1 on GPIOA */
-    RCC_APB2PeriphClockCmd(
-        RCC_APB2Periph_USART1 |
-        RCC_APB2Periph_GPIOA |
-        RCC_APB2Periph_AFIO, ENABLE);
-        
-    /* Configure PA9 and PA10 as USART1 TX/RX */
-    
-    /* PA9 = alternate function push/pull output */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-    /* PA10 = floating input */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-    /* Configure and initialize usart... */
-    USART_InitStructure.USART_BaudRate = 9600;
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_No;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-        
-    USART_Init(USART1, &USART_InitStructure);
-    
-    /* Enable USART1 */
-    USART_Cmd(USART1, ENABLE);   
-
-    while (1)
-    {
-        /* Wait until there's data in the receive data register */
-        while (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        
-        /* Read a byte */
-        rxbuf[rxbuf_pos++] = USART_ReceiveData(USART1);
-
-        /* Check if the previous byte was a newline */
-        if ((rxbuf[rxbuf_pos-1] == '\n' || rxbuf[rxbuf_pos-1] == '\r') && rxbuf_pos != 0) {
-            
-            /* Send the line back */
-            for (i = 0; i < rxbuf_pos; i++) {
-                USART_SendData(USART1, rxbuf[i]);
-                
-                /* Wait until the byte has been transmitted */
-                while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-            }
-            
-            rxbuf_pos = 0;
-        }
-    }
+	// Enable clock for GPIOC
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+  // Configure PC9 as push-pull output
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
+  GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_Init(GPIOA, &GPIO_InitStruct);
+	
+	DelayInit();
+	
+	// Initialize USART
+	USART2_Init();
+	
+	while (1)
+	{
+		// Read received char
+		char c = USART2_GetChar();
+		
+		if (c != '\n')
+		{ 
+			  if(c == 1)
+					{
+						// Turn on LED on PC9
+						GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+						delay(5000000);
+						// Turn off LED on PC9
+						GPIO_SetBits(GPIOA, GPIO_Pin_0);
+						delay(5000000);
+				}
+		}
+//		// Read chars until newline
+//		if (c != '\n')
+//		{
+//			// Concat char to buffer
+//			// If maximum buffer size is reached, then reset i to 0
+//			if (i < BUF_SIZE - 1)
+//			{
+//				buf[i] = c;
+//				i++;
+//			}
+//			else
+//			{
+//				buf[i] = c;
+//				i = 0;
+//			}
+//		}
+//		else
+//		{
+//			
+//			
+//			// Echo received string to USART2
+//			USART2_PutString(buf);
+//			USART2_PutChar('\n');
+//			
+//			// Clear buffer
+//			memset(&buf[0], 0, sizeof(buf));
+//			i = 0;
+//		}
+	}
 }
 
+void USART2_Init()
+{
+	// Initialization struct
+	USART_InitTypeDef USART_InitStruct;
+	GPIO_InitTypeDef GPIO_InitStruct;
+	
+	// Step 1: USART2 initialization
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+	USART_InitStruct.USART_BaudRate = 9600;
+	USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+	USART_InitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStruct.USART_Parity = USART_Parity_No;
+	USART_InitStruct.USART_StopBits = USART_StopBits_1;
+	USART_InitStruct.USART_WordLength = USART_WordLength_8b;
+	USART_Init(USART2, &USART_InitStruct);
+	USART_Cmd(USART2, ENABLE);
+	
+	// Step 2: GPIO initialization for Tx and Rx pin
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	// Tx pin initialization as push-pull alternate function
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_2;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStruct);
+	// Rx pin initialization as input floating
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3;
+	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStruct);
+}
 
+void USART2_PutChar(char c)
+{
+	// Wait until transmit data register is empty
+	while (!USART_GetFlagStatus(USART2, USART_FLAG_TXE));
+	// Send a char using USART2
+	USART_SendData(USART2, c);
+}
+
+void USART2_PutString(char *s)
+{
+	// Send a string
+	while (*s)
+	{
+		USART2_PutChar(*s++);
+	}
+}
+
+uint16_t USART2_GetChar()
+{
+	// Wait until data is received
+	while (!USART_GetFlagStatus(USART2, USART_FLAG_RXNE));
+	// Read received char
+	return USART_ReceiveData(USART2);
+}
+
+void delay (int a)
+{
+ volatile int i,j;
+ for (i=0 ; i < a ; i++)
+ {
+  j++;
+ }
+ return;
+}
