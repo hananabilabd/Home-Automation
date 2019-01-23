@@ -8,7 +8,7 @@
 #include "typedef.h"
 #include "IO.h"
 #include "macros.h"
-#define F_CPU 12000000UL
+#define F_CPU 8000000UL
 #include <util/delay.h>
 #include "DIO.h"
 //#include "Timer.h"
@@ -52,6 +52,13 @@ u8 result;
 #define Slave_Address			0x20
 u8 count = 0;
 u8 toggle_pin =0;
+void delay2(unsigned int nCount)
+{
+	unsigned int i, j;
+
+	for (i = 0; i < nCount; i++)
+		for (j = 0; j < nCount; j++);
+}
 int main(void)
 {
 
@@ -73,9 +80,16 @@ int main(void)
 
 					count = I2C_Slave_Receive();/* Receive data byte*/
 					if (count==0){DIO_SetPinValue('C',7,0);// Led on
-					_delay_ms(2000);}
+					//delay2(1);
+					//_delay_us(10);
+					//_delay_ms(50);
+					//_delay_ms(2000);
+					}
 					else if (count==1){DIO_SetPinValue('C',7,1);// Led on
-					_delay_ms(2000);}
+					//_delay_us(10);
+					//delay2(1);
+					//_delay_ms(50);
+					}
 
 					} while (count != -1);			/* Receive until STOP/REPEATED START received */
 					//count = 0;
@@ -95,7 +109,7 @@ int main(void)
 						//if (toggle_pin ==0){toggle_pin =1;}
 						//else {toggle_pin =0;}
 						//DIO_SetPinValue('C',7,0);// Led on
-						_delay_ms(1000);
+						//_delay_ms(1000);
 
 						} while (Ack_status == 0 || Ack_status == -1 || Ack_status == -2 );		/* Send until N Acknowledgment is received */
 						break;

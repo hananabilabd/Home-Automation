@@ -8,8 +8,12 @@
 #include "IO.h"
 #include "macros.h"
 #include "DIO.h"
-#include "Timer.h"
 #include "I2C.h"
+/*
+ * C1---SDA ==> Data of I2C
+*  C0---SCL --> Clk of I2C
+ */
+
 //https://www.engineersgarage.com/embedded/avr-microcontroller-projects/atmega32-twi-two-wire-interface
 
 void I2C_INIT_master(void){
