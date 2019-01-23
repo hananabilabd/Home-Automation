@@ -5,3 +5,11 @@ STM32f103C8_I2C/STM32f103C8_I2C.build_log.htm
 *.depdebug.log
 *.bak
 *.uvopt
+*.o
+*.crf
+*.dep
+*.inp
+*.htm
+*.axf
+*.s
+*.d
