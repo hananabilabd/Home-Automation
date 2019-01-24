@@ -8,7 +8,7 @@
 #include "typedef.h"
 #include "IO.h"
 #include "macros.h"
-#define F_CPU 8000000UL
+#define F_CPU 12000000UL
 #include <util/delay.h>
 #include "DIO.h"
 #include "UART.h"

@@ -8,9 +8,20 @@
   <WorkspaceName>WorkSpace</WorkspaceName>
 
   <project>
-    <PathAndName>..\test\testArm.uvproj</PathAndName>
+    <PathAndName>..\STM32f103C8_I2C\STM32f103C8_I2C.uvproj</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>..\STM32f103C8_SPI\STM32f103C8_SPI.uvproj</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>..\STM32f103C8_UART\STM32f103C8_SPI.uvproj</PathAndName>
     <NodeIsActive>1</NodeIsActive>
-    <NodeIsExpanded>1</NodeIsExpanded>
+  </project>
+
+  <project>
+    <PathAndName>..\STM32f103C8_UART-Receiver-I2C-Transmitter\STM32f103C8_UART-Receiver-I2C-Transmitter.uvproj</PathAndName>
   </project>
 
 </ProjectWorkspace>

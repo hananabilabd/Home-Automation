@@ -55,7 +55,7 @@ Atmega32_SPI.hex: Atmega32_SPI.elf
 
 avrdudedummy: Atmega32_SPI.elf
 	@echo 'Invoking: AVRDude'
-	C:\WinAVR-20100110\bin\avrdude -pm32 -cusbasp -Uflash:w:Atmega32_SPI.hex:a
+	F:\Programs\Eclipse\IMT_SDK_Win_64\WinAVR\bin\avrdude -pm32 -cusbasp -Uflash:w:Atmega32_SPI.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -67,5 +67,6 @@ clean:
 secondary-outputs: $(FLASH_IMAGE) $(AVRDUDEDUMMY)
 
 .PHONY: all clean dependents
+.SECONDARY:
 
 -include ../makefile.targets

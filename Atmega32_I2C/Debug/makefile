@@ -55,7 +55,7 @@ ATmega32_I2C.hex: ATmega32_I2C.elf
 
 avrdudedummy: ATmega32_I2C.elf
 	@echo 'Invoking: AVRDude'
-	C:\WinAVR-20100110\bin\avrdude -pm32 -cusbasp -Uflash:w:ATmega32_I2C.hex:a
+	F:\Programs\Eclipse\IMT_SDK_Win_64\WinAVR\bin\avrdude -pm32 -Uflash:w:ATmega32_I2C.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 
@@ -67,5 +67,6 @@ clean:
 secondary-outputs: $(FLASH_IMAGE) $(AVRDUDEDUMMY)
 
 .PHONY: all clean dependents
+.SECONDARY:
 
 -include ../makefile.targets

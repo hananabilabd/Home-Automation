@@ -8,7 +8,7 @@
 #include "typedef.h"
 #include "IO.h"
 #include "macros.h"
-#define F_CPU 8000000UL
+//#define F_CPU 8000000UL
 #include <util/delay.h>
 #include "DIO.h"
 //#include "Timer.h"
@@ -51,13 +51,17 @@ u8 result;
 
 #define Slave_Address			0x20
 u8 count = 0;
-u8 toggle_pin =0;
+
 void delay2(unsigned int nCount)
 {
-	unsigned int i, j;
-
-	for (i = 0; i < nCount; i++)
-		for (j = 0; j < nCount; j++);
+	for (unsigned long int i=0 ; i<200000;i++){
+				asm("NOP");
+				asm("NOP");
+				asm("NOP");
+				asm("NOP");
+				asm("NOP");
+				asm("NOP");
+			}
 }
 int main(void)
 {
@@ -79,13 +83,15 @@ int main(void)
 				{
 
 					count = I2C_Slave_Receive();/* Receive data byte*/
-					if (count==0){DIO_SetPinValue('C',7,0);// Led on
+					if (count==0){DIO_SetPinValue('C',7,1);// Led on
+					//delay2(1);
 					//delay2(1);
 					//_delay_us(10);
 					//_delay_ms(50);
 					//_delay_ms(2000);
 					}
-					else if (count==1){DIO_SetPinValue('C',7,1);// Led on
+					else if (count==1){DIO_SetPinValue('C',7,0);// Led on
+					DIO_SetPinValue('C',6,1);
 					//_delay_us(10);
 					//delay2(1);
 					//_delay_ms(50);

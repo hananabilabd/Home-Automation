@@ -8,13 +8,13 @@
 #include "typedef.h"
 #include "IO.h"
 #include "macros.h"
-#define F_CPU 8000000UL
+#define F_CPU 12000000UL
 #include <util/delay.h>
 #include "DIO.h"
 #include <avr/interrupt.h>
 #include <util/delay.h>
 //#include <avr/spi.h>
-
+//#include<inttypes.h>
 
 volatile uint8_t data;
 

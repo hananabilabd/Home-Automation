@@ -201,4 +201,4 @@ void delay2(unsigned int nCount)
 	
 	for (i = 0; i < nCount; i++)
 		for (j = 0; j < 0x2AFF; j++);
-}
+}z

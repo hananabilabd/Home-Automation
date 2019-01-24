@@ -8,7 +8,6 @@ void USART2_Init(void);
 void USART2_PutChar(char c);
 void USART2_PutString(char *s);
 uint16_t USART2_GetChar(void);
-
 // Buffer for store received chars
 #define BUF_SIZE	16
 char buf[BUF_SIZE];
@@ -16,7 +15,7 @@ int i = 0;
 
 void delay(unsigned int nCount);
 GPIO_InitTypeDef GPIO_InitStruct;
-
+// Tx = A2   , Rx A3  //UART
 int main(void)
 {
 	// Enable clock for GPIOA
@@ -40,7 +39,10 @@ int main(void)
 		if (c == 0){
 			GPIO_ResetBits(GPIOA, GPIO_Pin_0);
 		delay(1000);
-		// Set bit will turn off LED (because the logic is interved)
+		
+		}
+		else if (c==1){
+			// Set bit will turn off LED (because the logic is interved)
 		GPIO_SetBits(GPIOA, GPIO_Pin_0);
 		delay(1000);
 		}
